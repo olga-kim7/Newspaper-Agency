@@ -1,0 +1,16 @@
+{% extends "base.html" %}
+
+{% block content %}
+  <h1>Redactor List</h1>
+
+  {% if redactor_list %}
+
+      {% for redactor in redactor_list %}
+
+        <li><a href="{% url 'agency:redactor-detail' redactor.id %}"> {{ redactor.first_name }} {{ redactor.last_name }} </li>
+
+      {% endfor %}
+  {% else %}
+      <p>There are no redactor in the service.</p>
+  {% endif %}
+{% endblock %}

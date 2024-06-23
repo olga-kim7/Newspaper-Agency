@@ -2,16 +2,40 @@
 
 {% block content %}
     <h1>Title: {{ newspaper.title }}</h1>
-    <p><strong>Publish date: {{ newspaper.publish_date }}</strong></p>
-    <p><strong>Content: {{ newspaper.content }}</strong></p>
     <div class="ml-3">
         <h3>Redactors:</h3>
-        {% for redactor in newspaper.redactors.all %}
-            <hr>
-            <p class="text-muted">{{ redactor.id }}</p>
-            <p>{{ redactor.first_name }} {{ redactor.last_name }}</p>
-        {% empty %}
-            <p>No redactors!</p>
+    <table class="table">
+      <tr>
+        <th>ID</th>
+        <th>Title</th>
+          <th>Content</th>
+        <th>Redactor(s)</th>
+        <th>Update</th>
+        <th>Delete</th>
+      </tr>
+      <td>
+        {{ newspaper.id }}
+      </td>
+      <td>
+        {{ newspaper.title }}
+      </td>
+        <td>
+            {{ newspaper.content }}
+        </td>
+      <td>
+        {% for redactor in newspaper.redactor.all %}
+        {{ redactor.username }} ({{ redactor.first_name }} {{ redactor.last_name }}) <br>
         {% endfor %}
-    </div>
+      </td>
+
+        <p><strong>Publish date: {{ newspaper.publish_date }}</strong></p>
+
+
+      <td>
+        <a href="{% url 'agency:newspaper-update' pk=newspaper.id %}">UPDATE</a>
+      </td>
+      <td>
+        <a href="{% url 'agency:newspaper-delete' pk=newspaper.id %}">DELETE</a>
+      </td>
+    </table>
 {% endblock %}

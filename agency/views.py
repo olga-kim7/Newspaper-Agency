@@ -3,6 +3,7 @@ from django.contrib.auth.decorators import login_required
 from django.contrib.auth.mixins import LoginRequiredMixin
 from django.http import HttpRequest, HttpResponse
 from django.shortcuts import render
+from django.urls import reverse_lazy
 from django.views import generic
 from django.views.generic import ListView
 
@@ -34,8 +35,24 @@ class TopicListView(LoginRequiredMixin, generic.ListView):
     paginate_by = 10
 
 
-class TopicDetailView(LoginRequiredMixin, generic.DetailView):
+class TopicCreateView(LoginRequiredMixin, generic.CreateView):
     model = Topic
+    fields = "__all__"
+    success_url = reverse_lazy("agency:topic-list")
+    template_name = "agency/topic_form.html"
+
+
+class TopicUpdateView(LoginRequiredMixin, generic.UpdateView):
+    model = Topic
+    fields = "__all__"
+    success_url = reverse_lazy("agency:topic-list")
+    template_name = "agency/topic_form.html"
+
+
+class TopicDeleteView(LoginRequiredMixin, generic.DeleteView):
+    model = Topic
+    template_name = "agency/topic_confirm_delete.html"
+    success_url = reverse_lazy("agency:topic-list")
 
 
 class NewspaperListView(LoginRequiredMixin, generic.ListView):
@@ -50,6 +67,26 @@ class NewspaperDetailView(LoginRequiredMixin, generic.DetailView):
     model = Newspaper
 
 
+class NewspaperCreateView(LoginRequiredMixin, generic.CreateView):
+    model = Newspaper
+    fields = "__all__"
+    success_url = reverse_lazy("agency:newspaper-list")
+    template_name = "agency/newspaper_form.html"
+
+
+class NewspaperUpdateView(LoginRequiredMixin, generic.UpdateView):
+    model = Newspaper
+    fields = "__all__"
+    success_url = reverse_lazy("agency:newspaper-list")
+    template_name = "agency/newspaper_form.html"
+
+
+class NewspaperDeleteView(LoginRequiredMixin, generic.DeleteView):
+    model = Newspaper
+    template_name = "agency/newspaper_confirm_delete.html"
+    success_url = reverse_lazy("agency:newspaper-list")
+
+
 class RedactorListView(LoginRequiredMixin, generic.ListView):
     model = Redactor
     template_name = "agency/redactor_list.html"
@@ -60,12 +97,4 @@ class RedactorListView(LoginRequiredMixin, generic.ListView):
 
 class RedactorDetailView(LoginRequiredMixin, generic.DetailView):
     model = Redactor
-
-#
-# def login_view(request: HttpRequest) -> HttpResponse:
-#     return render(request, "registration/login.html")
-#
-#
-# def logout_view(request: HttpRequest) -> HttpResponse:
-#     logout(request)
-#     return render(request, "registration/logged_out.html")
+    paginate_by = 10

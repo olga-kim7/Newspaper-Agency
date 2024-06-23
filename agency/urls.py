@@ -1,4 +1,3 @@
-from django.contrib import admin
 from django.urls import path
 
 from agency.views import (
@@ -8,7 +7,7 @@ from agency.views import (
     RedactorListView,
     NewspaperDetailView,
     TopicDetailView,
-    RedactorDetailView
+    RedactorDetailView,
 )
 
 urlpatterns = [

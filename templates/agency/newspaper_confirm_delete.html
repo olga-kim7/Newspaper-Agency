@@ -6,7 +6,7 @@
     {% csrf_token %}
 
     <input type="submit" value="Yes" class="btn btn-danger">
-      <a href="{% url 'agency:newspaper-detail' pk=car.id %}" class="btn btn-secondary">Cancel</a>
+      <a href="{% url 'agency:newspaper-detail' pk=newspaper.id %}" class="btn btn-secondary">Cancel</a>
 
   </form>
 {% endblock %}

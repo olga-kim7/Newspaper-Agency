@@ -7,12 +7,13 @@
       Create
     </a>
   </h1>
+    {% include "includes/search_form.html" %}
   {% if newspaper_list %}
     <ul>
       {% for newspaper in newspaper_list %}
         <li>
-          <a href="{% url 'agency:newspaper-detail' pk=newspaper.id %} ">{{ newspaper.id }}</a>
-          {{ newspaper.title }} ({{ newspaper.topic.name }})
+          <a href="{% url 'agency:newspaper-detail' pk=newspaper.id %} ">{{ newspaper.id }}
+          {{ newspaper.title }} ({{ newspaper.topic.name }})</a>
         </li>
       {% endfor %}
     </ul>
@@ -20,4 +21,3 @@
     <p>There are no newspapers in agency</p>
   {% endif %}
 {% endblock %}
-

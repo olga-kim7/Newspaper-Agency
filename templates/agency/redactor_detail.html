@@ -19,10 +19,9 @@
   <div class="ml-3">
     <h4>Newspapers</h4>
 
-    {% for newspaper in redactor.newspapers.all %}
+    {% for newspaper in redactor.publisher.all %}
       <hr>
-      <p><strong>Title:</strong> {{ newspaper.title }}</p>
-      <p><strong>Topic:</strong> {{ newspaper.topic.name }}</p>
+      <p><strong>Title:</strong> {{ newspaper.title }} ({{ newspaper.topic.name }})</p>
       <p class="text-muted"><strong>Id:</strong> {{ newspaper.id }}</p>
 
     {% empty %}

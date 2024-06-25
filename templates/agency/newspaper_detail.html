@@ -15,7 +15,7 @@
   <h1>Redactor:</h1>
   <hr>
   <ul>
-    {% for redactor in newspaper.redactors.all %}
+    {% for redactor in newspaper.publisher.all %}
       <li>Username: {{ redactor.username }} </li>
       <li>Full name: {{ redactor.first_name }} {{ redactor.last_name }}</li>
       <li>Years_of_experience: {{ redactor.years_of_experience }}</li>
@@ -23,7 +23,7 @@
   </ul>
   <form method="post" action="{% url 'agency:newspaper-assign' pk=newspaper.id %}">
     {% csrf_token %}
-    <button type="submit" class="btn btn-warning">{% if user in newspaper.redactor.all %} Remove me from this newspaper {% else %} Appoint me to this newspaper {% endif %}
+    <button type="submit" class="btn btn-warning">{% if user in newspaper.publisher.all %} Remove me from this newspaper {% else %} Appoint me to this newspaper {% endif %}
     </button>
   </form>
 

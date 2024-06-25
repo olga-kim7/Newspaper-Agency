@@ -62,7 +62,12 @@ class Migration(migrations.Migration):
                 ('content', models.TextField()),
                 ('published_date', models.DateField()),
                 ('publishers', models.ManyToManyField(related_name='publisher', to=settings.AUTH_USER_MODEL)),
-                ('topic', models.ForeignKey(on_delete=django.db.models.deletion.CASCADE, to='agency.topic')),
+                ('topic',
+                 models.ForeignKey(
+                     on_delete=django.db.models.deletion.CASCADE,
+                     to='agency.topic'
+                 )
+                 ),
             ],
             options={
                 'ordering': ('title',),

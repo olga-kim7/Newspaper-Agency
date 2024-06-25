@@ -4,10 +4,16 @@ from django.shortcuts import render
 from django.urls import reverse_lazy
 from django.views import generic
 from django.contrib.auth.mixins import LoginRequiredMixin
-from django.views.generic import View
 
 
-from agency.forms import RedactorCreationForm, NewspaperForm, RedactorLicenseUpdateForm
+from agency.forms import (
+    RedactorCreationForm,
+    NewspaperForm,
+    RedactorLicenseUpdateForm,
+    NewspaperSearchForm,
+    TopicSearchForm,
+    RedactorSearchForm
+)
 from agency.models import Redactor, Newspaper, Topic
 
 
@@ -19,8 +25,8 @@ def index(request: HttpRequest) -> HttpResponse:
     num_newspapers = Newspaper.objects.count()
     num_topics = Topic.objects.count()
 
-    num_visits = request.session.get('num_visits', 0)
-    request.session['num_visits'] = num_visits + 1
+    num_visits = request.session.get("num_visits", 0)
+    request.session["num_visits"] = num_visits + 1
 
     context = {
         "num_redactors": num_redactors,
@@ -36,8 +42,22 @@ class TopicListView(LoginRequiredMixin, generic.ListView):
     model = Topic
     context_object_name = "topic_list"
     template_name = "agency/topic_list.html"
-    queryset = Topic.objects.all().order_by("name")
     paginate_by = 10
+
+    def get_context_data(self, *, object_list=None, **kwargs):
+        context = super(TopicListView, self).get_context_data(**kwargs)
+        name = self.request.GET.get("query", "")
+        context["search_form"] = TopicSearchForm(
+            initial={"query": name}
+        )
+        return context
+
+    def get_queryset(self):
+        queryset = Topic.objects.all().order_by("name")
+        form = TopicSearchForm(self.request.GET)
+        if form.is_valid():
+            return queryset.filter(name__icontains=form.cleaned_data["query"])
+        return queryset
 
 
 class TopicCreateView(LoginRequiredMixin, generic.CreateView):
@@ -59,8 +79,22 @@ class TopicDeleteView(LoginRequiredMixin, generic.DeleteView):
 
 class NewspaperListView(LoginRequiredMixin, generic.ListView):
     model = Newspaper
-    queryset = Newspaper.objects.select_related("topic")
     paginate_by = 10
+
+    def get_context_data(self, *, object_list=None, **kwargs):
+        contex = super(NewspaperListView, self).get_context_data(**kwargs)
+        title = self.request.GET.get("query", "")
+        contex["search_form"] = NewspaperSearchForm(
+            initial={"query": title}
+        )
+        return contex
+
+    def get_queryset(self):
+        queryset = Newspaper.objects.select_related("topic")
+        form = NewspaperSearchForm(self.request.GET)
+        if form.is_valid():
+            return queryset.filter(title__icontains=form.cleaned_data["query"])
+        return queryset
 
 
 class NewspaperDetailView(LoginRequiredMixin, generic.DetailView):
@@ -86,8 +120,24 @@ class NewspaperDeleteView(LoginRequiredMixin, generic.DeleteView):
 
 class RedactorListView(LoginRequiredMixin, generic.ListView):
     model = Redactor
-    queryset = Redactor.objects.all()
     paginate_by = 10
+
+    def get_context_data(self, *, object_list=None, **kwargs):
+        context = super(RedactorListView, self).get_context_data(**kwargs)
+        username = self.request.GET.get("query", "")
+        context["search_form"] = RedactorSearchForm(
+            initial={"query": username}
+        )
+        return context
+
+    def get_queryset(self):
+        queryset = Redactor.objects.all()
+        form = RedactorSearchForm(self.request.GET)
+        if form.is_valid():
+            return queryset.filter(
+                username__icontains=form.cleaned_data["query"]
+            )
+        return queryset
 
 
 class RedactorCreateView(LoginRequiredMixin, generic.CreateView):
@@ -111,13 +161,16 @@ class RedactorDetailView(LoginRequiredMixin, generic.DetailView):
     paginate_by = 10
 
 
-class AssignUserToNewspaperView(LoginRequiredMixin, View):
-
-    def post(self, request, pk):
-        newspaper = Newspaper.objects.get(pk=pk)
-        if request.user not in newspaper.redactor.all():
-            newspaper.redactor.add(request.user)
-        else:
-            newspaper.redactor.remove(request.user)
-        return (HttpResponseRedirect
-                (reverse_lazy("agency:newspaper-detail", kwargs={"pk": pk})))
+@login_required
+def toggle_assign_to_car(request, pk):
+    redactor = Redactor.objects.get(id=request.user.id)
+    if (
+        Newspaper.objects.get(id=pk) in redactor.publisher.all()
+    ):  # probably could check if car exists
+        redactor.publisher.remove(pk)
+    else:
+        redactor.publisher.add(pk)
+    return HttpResponseRedirect(
+        reverse_lazy("agency:newspaper-detail",
+                     args=[pk])
+    )

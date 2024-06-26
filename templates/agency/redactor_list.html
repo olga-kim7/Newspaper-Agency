@@ -1,29 +1,153 @@
-{% extends "base.html" %}
+{%  extends "base.html" %}
 
-{% block content %}
-  <h1>Redactor List <a href=" {% url 'agency:redactor-create' %}" class="btn btn-primary link-to-page">Create</a></h1>
-    {% include "includes/search_form.html" %}
+{%load static %}
+{% block body %}
 
-  {% if redactor_list %}
-    <table class="table">
-      <tr>
-        <th>ID</th>
-        <th>Username</th>
-        <th>First name</th>
-        <th>Last name</th>
-      </tr>
+
+<body id="team">
+
+<!--================ Start Header Menu Area =================-->
+<header class="header_area">
+  <div class="main_menu">
+    <div class="search_input" id="search_input_box">
+      <div class="container">
+        <form class="d-flex justify-content-between">
+          <input type="text" class="form-control" id="search_input" placeholder="Search Here">
+          <button type="submit" class="btn"></button>
+          <span class="lnr lnr-cross" id="close_search" title="Close Search"></span>
+        </form>
+      </div>
+    </div>
+    <nav class="navbar navbar-expand-lg navbar-light">
+      <div class="container">
+        <!-- Brand and toggle get grouped for better mobile display -->
+        <a class="navbar-brand logo_h" href="base.html"><img src="img/logo.png" alt=""></a>
+        <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent"
+                aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+          <span class="icon-bar"></span>
+          <span class="icon-bar"></span>
+          <span class="icon-bar"></span>
+        </button>
+        <!-- Collect the nav links, forms, and other content for toggling -->
+        <div class="collapse navbar-collapse offset" id="navbarSupportedContent">
+          <ul class="nav navbar-nav menu_nav ml-auto">
+            <li class="nav-item active"><a class="nav-link" href="{% url 'agency:index' %}">Home</a></li>
+            <li class="nav-item"><a class="nav-link" href="{% url 'agency:redactor-list' %}">Redactors</a></li>
+            <li class="nav-item"><a class="nav-link" href="{% url 'agency:topic-list' %}">Topics</a></li>
+            <li class="nav-item"><a class="nav-link" href="{% url 'agency:newspaper-list' %}">Newspapers</a></li>
+            <li class="nav-item">
+              <a class="nav-link" href="{% url 'login' %}?next={{ request.path }}">LOGIN</a>
+            </li>
+
+            <li class="nav-item">
+              <form method="post" action="{% url 'logout' %}" style="display: inline;">
+                {% csrf_token %}
+                <button class="nav-link" type="submit"
+                        style="background: none; border: none; padding: 0; margin: 0; cursor: pointer;">LOGOUT
+                </button>
+              </form>
+            </li>
+            </form>
+            <li class="nav-item submenu dropdown">
+            </li>
+            <ul class="dropdown-menu">
+            </ul>
+            </li>
+          </ul>
+          <ul class="nav navbar-nav ml-auto">
+            <div class="social-icons d-flex align-items-center">
+
+
+              <a href="">
+                <li><i class="fa fa-facebook"></i></li>
+              </a>
+              <a href="">
+                <li><i class="fa fa-twitter"></i></li>
+              </a>
+              </li>
+            </div>
+            <li class="nav-item"><a href="#" class="search">
+              <i class="lnr lnr-magnifier" id="search"></i></a>
+            </li>
+          </ul>
+        </div>
+      </div>
+    </nav>
+  </div>
+</header>
+<!--================ End Header Menu Area =================-->
+
+<!--================Home Banner Area =================-->
+<section class="banner_area">
+  <div class="banner_inner overlay d-flex align-items-center"
+       style="background-image: url('https://upyourlevel.com/wp-content/uploads/2019/03/team-3373638_1920.jpg');">
+    <div class="container">
+      <div class="banner_content text-center">
+        <div class="page_link">
+          <a href="{% url 'agency:index' %}">Home</a>
+          <a href="{% url 'agency:redactor-list' %}">Redactors</a>
+        </div>
+        <h2>Newspaper Member</h2>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!--================End Home Banner Area =================-->
+
+<!--================ Start Team Area =================-->
+<section class="section_gap team-area">
+  <div class="container">
+    <div class="row justify-content-center">
+      <div class="col-lg-7">
+        <div class="main_title">
+          <h2>Meet Our Experienced Team</h2>
+          <p>Our team consists of experienced media professionals.</p>
+          <a href=" {% url 'agency:redactor-create' %}" class="btn btn-primary link-to-page">Create redactors</a></h1>
+
+        </div>
+      </div>
+    </div>
+    <div class="row justify-content-center">
+      {% if redactor_list %}
       {% for redactor in redactor_list %}
-        <tr>
-          <td>{{ redactor.id }}</td>
-          <td><a href="{{ redactor.get_absolute_url }}">{{ redactor.username }} {% if user == redactor %} (Me){% endif %}</a>
-          </td>
-          <td>{{ redactor.first_name }}</td>
-          <td>{{ redactor.last_name }}</td>
-        </tr>
-      {% endfor %}
+      <!-- single-team-member -->
+      <div class="col-lg-4 col-md-4 col-sm-6">
+        <div class="single_member">
+          <div class="author">
+            {% if redactor.avatar %}
+            <img class="img-fluid" src="{{ redactor.avatar.url }}" alt="">
+            {%else%}
+            <img class="img-fluid" src="https://upyourlevel.com/wp-content/uploads/2019/03/team-3373638_1920.jpg"
+                 alt="">
 
-    </table>
-  {% else %}
-    <p>There are no redactors in the service.</p>
-  {% endif %}
+            {%endif%}
+
+          </div>
+
+
+          <div class="author_decs">
+            <h5><a href="{% url 'agency:redactor-detail' redactor.id %}">{{ redactor.username }}</a></h5>
+            {% for topic in redactor.publisher.all %}
+            <p class="profession">Title: {{topic.title}}</p>
+            {% endfor %}
+
+
+          </div>
+        </div>
+      </div>
+      {% endfor %}
+      {% else %}
+      <p>There are no redactors in the service.</p>
+      {% endif %}
+
+      <!-- single-team-member -->
+
+    </div>
+  </div>
+</section>
+<!--================ End Team Area =================-->
+
+<!--================  start footer Area =================-->
+<
 {% endblock %}

@@ -1,31 +1,137 @@
-{% extends "base.html" %}
+{%  extends "base.html" %}
 
-{% block content %}
-  <h1>
-    Username: {{ redactor.username }}
-    <a href="{% url 'agency:redactor-delete' pk=redactor.id %}" class="btn btn-danger link-to-page">
-      Delete
-    </a>
-    <a href="{% url 'agency:redactor-update' pk=redactor.id %}" class="btn btn-secondary link-to-page">
-      Update
-    </a>
-  </h1>
+{%load static %}
+{% block body %}
 
-  <p><strong>First name:</strong> {{ redactor.first_name }}</p>
-  <p><strong>Last name:</strong> {{ redactor.last_name }}</p>
-  <p><strong>Years_of_experience:</strong> {{ redactor.years_of_experience }}</p>
-  <p><strong>Is staff:</strong> {{ redactor.is_staff }}</p>
+<!doctype html>
+<html lang="en">
 
-  <div class="ml-3">
-    <h4>Newspapers</h4>
+<header class="header_area">
+  <div class="main_menu">
+    <div class="search_input" id="search_input_box">
+      <div class="container">
+        <form class="d-flex justify-content-between">
+          <input type="text" class="form-control" id="search_input" placeholder="Search Here">
+          <button type="submit" class="btn"></button>
+          <span class="lnr lnr-cross" id="close_search" title="Close Search"></span>
+        </form>
+      </div>
+    </div>
+    <nav class="navbar navbar-expand-lg navbar-light">
+      <div class="container">
+        <!-- Brand and toggle get grouped for better mobile display -->
+        <a class="navbar-brand logo_h" href="base.html"><img src="img/logo.png" alt=""></a>
+        <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent"
+                aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+          <span class="icon-bar"></span>
+          <span class="icon-bar"></span>
+          <span class="icon-bar"></span>
+        </button>
+        <!-- Collect the nav links, forms, and other content for toggling -->
+        <div class="collapse navbar-collapse offset" id="navbarSupportedContent">
+          <ul class="nav navbar-nav menu_nav ml-auto">
+            <li class="nav-item active"><a class="nav-link" href="{% url 'agency:index' %}">Home</a></li>
+            <li class="nav-item"><a class="nav-link" href="{% url 'agency:redactor-list' %}">Redactors</a></li>
+            <li class="nav-item"><a class="nav-link" href="{% url 'agency:topic-list' %}">Topics</a></li>
+            <li class="nav-item"><a class="nav-link" href="{% url 'agency:newspaper-list' %}">Newspapers</a></li>
+            <li class="nav-item submenu dropdown">
+            </li>
+            <ul class="dropdown-menu">
+            </ul>
+            </li>
+          </ul>
+          <ul class="nav navbar-nav ml-auto">
+            <div class="social-icons d-flex align-items-center">
 
-    {% for newspaper in redactor.publisher.all %}
-      <hr>
-      <p><strong>Title:</strong> {{ newspaper.title }} ({{ newspaper.topic.name }})</p>
-      <p class="text-muted"><strong>Id:</strong> {{ newspaper.id }}</p>
+              <a href="#" class="nav-link dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true"
+                 aria-expanded="false">Login</a>
+              <a href="#" class="nav-link dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true"
+                 aria-expanded="false">Logout</a>
 
-    {% empty %}
-      <p>No newspapers!</p>
-    {% endfor %}
+              <a href="">
+                <li><i class="fa fa-facebook"></i></li>
+              </a>
+              <a href="">
+                <li><i class="fa fa-twitter"></i></li>
+              </a>
+              </li>
+            </div>
+            <li class="nav-item"><a href="#" class="search">
+              <i class="lnr lnr-magnifier" id="search"></i></a>
+            </li>
+          </ul>
+        </div>
+      </div>
+    </nav>
   </div>
+</header>
+<!--================ End Header Menu Area =================-->
+
+<!--================ End Header Menu Area =================-->
+
+<!--================Home Banner Area =================-->
+<section class="banner_area ">
+  <div class="banner_inner overlay d-flex align-items-center"
+       style="background-image: url('https://static.vecteezy.com/system/resources/previews/007/935/327/non_2x/newspaper-frame-background-illustration-vector.jpg');">
+
+    <div class="container">
+      <div class="banner_content text-center">
+        <div class="page_link">
+          <a href="{% url 'agency:index'%}">Home</a>
+          <a href="{% url 'agency:redactor-list'%}>Redactors</a>
+						<a href=" elements.html">Redactor</a>
+        </div>
+        <h2>Detail Redactor</h2>
+      </div>
+    </div>
+  </div>
+</section>
+<!--================End Home Banner Area =================-->
+
+
+<!-- Start Sample Area -->
+
+<!-- End Button -->
+
+<div class="section-top-border">
+  <div class="row">
+    <div class="col-lg-8 col-md-8">
+      <h3 class="mb-30 title_color">Redactors:</h3>
+      <form action="#">
+        <div class="mt-10">First name:
+          <input type="text" name="first_name" placeholder="First Name" onfocus="this.placeholder = ''"
+                 onblur="this.placeholder = 'First Name'"
+                 required class="single-input" value="{{ redactor.first_name }}">
+        </div>
+        <div class="mt-10">Last name:
+          <input type="text" name="last_name" placeholder="Last Name" onfocus="this.placeholder = ''"
+                 onblur="this.placeholder = 'Last Name'"
+                 required class="single-input" value="{{ redactor.last_name }}">
+        </div>
+        <div class="mt-10">Username:
+          <input type="text" name="last_name" placeholder="Username" onfocus="this.placeholder = ''"
+                 onblur="this.placeholder = 'Username'"
+                 required class="single-input" value="{{ redactor.username }}">
+        </div>
+        <div class="mt-10">Years of experience:
+          <input type="email" name="Years of experience" placeholder="Years of experience"
+                 onfocus="this.placeholder = ''"
+                 onblur="this.placeholder = 'Years of experience'"
+                 required class="single-input" value="{{ redactor.years_of_experience}}">
+        </div>
+        <h5>
+          <a href="{% url 'agency:redactor-delete' pk=redactor.id %}" class="btn btn-danger link-to-page">
+            Delete
+          </a>
+          <a href="{% url 'agency:redactor-update' pk=redactor.id %}" class="btn btn-secondary link-to-page">
+            Update
+          </a>
+        </h5>
+      </form>
+    </div>
+  </div>
+</div>
+</html>
+</body>
+
 {% endblock %}

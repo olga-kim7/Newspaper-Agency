@@ -1,12 +1,18 @@
 {% extends "base.html" %}
 {% load crispy_forms_filters %}
 
-{% block content %}
-  <h1>{{ object|yesno:"Update,Create" }} redactor </h1>
-  <form action="" method="post" novalidate>
+{% block body %}
+<div style="text-align: center; margin-top: 50px;">
+  <h1>{{ object|yesno:"Update,Create" }} Redactor</h1>
+
+  <form action="" method="post" novalidate
+        style="display: inline-block; text-align: left; background: #f9f9f9; padding: 20px; border-radius: 10px; box-shadow: 0 0 10px rgba(0,0,0,0.1);">
     {% csrf_token %}
     {{ form|crispy }}
 
-    <input type="submit" value="Submit" class="btn btn-primary">
+    <div style="text-align: center; margin-top: 20px;">
+      <input type="submit" value="Submit" class="btn btn-primary" style="padding: 10px 20px; cursor: pointer;">
+    </div>
   </form>
+</div>
 {% endblock %}

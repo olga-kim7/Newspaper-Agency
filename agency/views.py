@@ -41,8 +41,10 @@ def index(request: HttpRequest) -> HttpResponse:
 class TopicListView(LoginRequiredMixin, generic.ListView):
     model = Topic
     context_object_name = "topic_list"
-    template_name = "agency/topic_list.html"
     paginate_by = 10
+    template_name = "agency/topic_list.html"
+
+
 
     def get_context_data(self, *, object_list=None, **kwargs):
         context = super(TopicListView, self).get_context_data(**kwargs)
@@ -69,6 +71,7 @@ class TopicCreateView(LoginRequiredMixin, generic.CreateView):
 class TopicUpdateView(LoginRequiredMixin, generic.UpdateView):
     model = Topic
     fields = "__all__"
+    template_name = "agency/topic_form.html"
     success_url = reverse_lazy("agency:topic-list")
 
 
@@ -80,6 +83,7 @@ class TopicDeleteView(LoginRequiredMixin, generic.DeleteView):
 class NewspaperListView(LoginRequiredMixin, generic.ListView):
     model = Newspaper
     paginate_by = 10
+    template_name = "agency/newspaper_list.html"
 
     def get_context_data(self, *, object_list=None, **kwargs):
         contex = super(NewspaperListView, self).get_context_data(**kwargs)
@@ -99,6 +103,7 @@ class NewspaperListView(LoginRequiredMixin, generic.ListView):
 
 class NewspaperDetailView(LoginRequiredMixin, generic.DetailView):
     model = Newspaper
+    template_name = "agency/newspaper_detail.html"
 
 
 class NewspaperCreateView(LoginRequiredMixin, generic.CreateView):
@@ -121,6 +126,8 @@ class NewspaperDeleteView(LoginRequiredMixin, generic.DeleteView):
 class RedactorListView(LoginRequiredMixin, generic.ListView):
     model = Redactor
     paginate_by = 10
+    context_object_name = "redactor_list"
+    template_name = "agency/redactor_list.html"
 
     def get_context_data(self, *, object_list=None, **kwargs):
         context = super(RedactorListView, self).get_context_data(**kwargs)
@@ -159,6 +166,7 @@ class RedactorDetailView(LoginRequiredMixin, generic.DetailView):
     model = Redactor
     queryset = Redactor.objects.all().prefetch_related("publisher__topic")
     paginate_by = 10
+    template_name = "agency/redactor_detail.html"
 
 
 @login_required

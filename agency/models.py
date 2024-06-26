@@ -25,6 +25,7 @@ class Newspaper(models.Model):
 
 
 class Redactor(AbstractUser):
+    avatar = models.ImageField(upload_to="redactors/", null=True, blank=True)
     years_of_experience = models.IntegerField(default=0)
 
     class Meta:

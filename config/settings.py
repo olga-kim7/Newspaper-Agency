@@ -115,9 +115,14 @@ USE_TZ = True
 
 STATIC_URL = 'static/'
 
+
+# Additional directories where static files are located
 STATICFILES_DIRS = [
-    BASE_DIR / "static",
+    os.path.join(BASE_DIR, 'static'),
+    # Add more directories if necessary
 ]
+
+
 
 
 # Default primary key field type
@@ -130,3 +135,6 @@ AUTH_USER_MODEL = 'agency.Redactor'
 LOGIN_REDIRECT_URL = '/agency/'
 
 CRISPY_TEMPLATE_PACK = 'bootstrap4'
+
+MEDIA_URL = '/media/'
+MEDIA_ROOT = BASE_DIR / 'uploads'

@@ -44,8 +44,6 @@ class TopicListView(LoginRequiredMixin, generic.ListView):
     paginate_by = 10
     template_name = "agency/topic_list.html"
 
-
-
     def get_context_data(self, *, object_list=None, **kwargs):
         context = super(TopicListView, self).get_context_data(**kwargs)
         name = self.request.GET.get("query", "")
@@ -170,11 +168,11 @@ class RedactorDetailView(LoginRequiredMixin, generic.DetailView):
 
 
 @login_required
-def toggle_assign_to_car(request, pk):
+def toggle_assign_to_newspaper(request, pk):
     redactor = Redactor.objects.get(id=request.user.id)
     if (
         Newspaper.objects.get(id=pk) in redactor.publisher.all()
-    ):  # probably could check if car exists
+    ):
         redactor.publisher.remove(pk)
     else:
         redactor.publisher.add(pk)

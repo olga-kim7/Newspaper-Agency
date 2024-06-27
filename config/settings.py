@@ -20,10 +20,10 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 # See https://docs.djangoproject.com/en/5.0/howto/deployment/checklist/
 
 # SECURITY WARNING: keep the secret key used in production secret!
-SECRET_KEY = 'django-insecure-&1ls(zd#mtx7kwwkjp_j2#%#rqc==c7z6i9+3b0g_g$%jim+*_'
+SECRET_KEY = os.environ.get('DJANGO_SECRET_KEY', 'django-insecure-&1ls(zd#mtx7kwwkjp_j2#%#rqc==c7z6i9+3b0g_g$%jim+*_')
 
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = True
+DEBUG = os.environ.get('DJANGO_DEBUG', '') != 'False'
 
 ALLOWED_HOSTS = []
 
@@ -130,7 +130,7 @@ DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 
 AUTH_USER_MODEL = 'agency.Redactor'
 
-LOGIN_REDIRECT_URL = '/agency/'
+LOGIN_REDIRECT_URL = '/'
 
 CRISPY_TEMPLATE_PACK = 'bootstrap4'
 

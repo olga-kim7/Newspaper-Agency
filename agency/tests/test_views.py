@@ -47,7 +47,7 @@ class IndexViewTests(TestCase):
         self.response = self.client.get(self.index_url)
 
     def test_correctness_template(self):
-        self.assertTemplateUsed(self.response, "agency/base.html")
+        self.assertTemplateUsed(self.response, "base.html")
 
     def test_redactor_counter_presents(self):
         num_redactors = Redactor.objects.count()

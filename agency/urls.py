@@ -16,7 +16,7 @@ from agency.views import (
     RedactorUpdateView,
     RedactorDeleteView,
     RedactorDetailView,
-    toggle_assign_to_newspaper,
+    AssignUserToNewspaperView,
 )
 
 urlpatterns = [
@@ -77,7 +77,7 @@ urlpatterns = [
     ),
     path(
         "newspaper/<int:pk>/assign/",
-        toggle_assign_to_newspaper,
+        AssignUserToNewspaperView.as_view(),
         name="newspaper-assign"
     ),
 ]

@@ -2,7 +2,7 @@ from django.contrib.auth.decorators import login_required
 from django.http import HttpResponseRedirect, HttpRequest, HttpResponse
 from django.shortcuts import render
 from django.urls import reverse_lazy
-from django.views import generic
+from django.views import generic, View
 from django.contrib.auth.mixins import LoginRequiredMixin
 
 
@@ -167,16 +167,13 @@ class RedactorDetailView(LoginRequiredMixin, generic.DetailView):
     template_name = "agency/redactor_detail.html"
 
 
-@login_required
-def toggle_assign_to_newspaper(request, pk):
-    redactor = Redactor.objects.get(id=request.user.id)
-    if (
-        Newspaper.objects.get(id=pk) in redactor.publisher.all()
-    ):
-        redactor.publisher.remove(pk)
-    else:
-        redactor.publisher.add(pk)
-    return HttpResponseRedirect(
-        reverse_lazy("agency:newspaper-detail",
-                     args=[pk])
-    )
+class AssignUserToNewspaperView(LoginRequiredMixin, View):
+
+    def post(self, request, pk):
+        newspaper = Newspaper.objects.get(pk=pk)
+        if request.user not in newspaper.publisher.all():
+            newspaper.publisher.add(request.user)
+        else:
+            newspaper.publisher.remove(request.user)
+        return (HttpResponseRedirect
+                (reverse_lazy("agency:newspaper-detail", kwargs={"pk": pk})))

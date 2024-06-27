@@ -50,7 +50,7 @@ class AdminTestCase(TestCase):
 
     def test_redactor_assign_to_newspaper(self):
         url = reverse("agency:newspaper-assign", args=[self.newspaper.pk])
-        response = self.client.get(url)
+        response = self.client.post(url)
         self.assertEqual(response.status_code, 302)
 
         newspaper = Newspaper.objects.get(pk=self.newspaper.pk)

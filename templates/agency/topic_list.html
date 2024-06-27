@@ -1,0 +1,158 @@
+{%  extends "base.html" %}
+
+{%load static %}
+{% block body %}
+
+
+<body>
+
+<!--================ Start Header Menu Area =================-->
+<hea
+<header class="header_area">
+  <div class="main_menu">
+    <div class="search_input" id="search_input_box">
+      <div class="container">
+        <form class="d-flex justify-content-between">
+          <input type="text" class="form-control" id="search_input" placeholder="Search Here">
+          <button type="submit" class="btn"></button>
+          <span class="lnr lnr-cross" id="close_search" title="Close Search"></span>
+        </form>
+      </div>
+    </div>
+    <nav class="navbar navbar-expand-lg navbar-light">
+      <div class="container">
+        <!-- Brand and toggle get grouped for better mobile display -->
+        <a class="navbar-brand logo_h" href="base.html"><img src="img/logo.png" alt=""></a>
+        <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent"
+                aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+          <span class="icon-bar"></span>
+          <span class="icon-bar"></span>
+          <span class="icon-bar"></span>
+        </button>
+        <!-- Collect the nav links, forms, and other content for toggling -->
+        <div class="collapse navbar-collapse offset" id="navbarSupportedContent">
+          <ul class="nav navbar-nav menu_nav ml-auto">
+            <li class="nav-item active"><a class="nav-link" href="{% url 'agency:index' %}">Home</a></li>
+            <li class="nav-item"><a class="nav-link" href="{% url 'agency:redactor-list' %}">Redactors</a></li>
+            <li class="nav-item"><a class="nav-link" href="{% url 'agency:topic-list' %}">Topics</a></li>
+            <li class="nav-item"><a class="nav-link" href="{% url 'agency:newspaper-list' %}">Newspapers</a></li>
+            <li class="nav-item">
+              <a class="nav-link" href="{% url 'login' %}?next={{ request.path }}">LOGIN</a>
+            </li>
+
+            <li class="nav-item">
+              <form method="post" action="{% url 'logout' %}" style="display: inline;">
+                {% csrf_token %}
+                <button class="nav-link" type="submit"
+                        style="background: none; border: none; padding: 0; margin: 0; cursor: pointer;">LOGOUT
+                </button>
+              </form>
+            </li>
+            </form>
+            <li class="nav-item submenu dropdown">
+            </li>
+            <ul class="dropdown-menu">
+            </ul>
+            </li>
+          </ul>
+          <ul class="nav navbar-nav ml-auto">
+            <div class="social-icons d-flex align-items-center">
+
+
+              <a href="">
+                <li><i class="fa fa-facebook"></i></li>
+              </a>
+              <a href="">
+                <li><i class="fa fa-twitter"></i></li>
+              </a>
+              </li>
+            </div>
+            <li class="nav-item"><a href="#" class="search">
+              <i class="lnr lnr-magnifier" id="search"></i></a>
+            </li>
+          </ul>
+        </div>
+      </div>
+    </nav>
+  </div>
+</header>
+<!--================ End Header Menu Area =================-->
+
+<!--================ Start Home Banner Area =================-->
+<section class="banner_area">
+  <div class="banner_inner overlay d-flex align-items-center"
+       style="background-image: url('https://upyourlevel.com/wp-content/uploads/2019/03/team-3373638_1920.jpg');">
+    <div class="container">
+      <div class="banner_content text-center">
+        <div class="page_link">
+          <a href="{% url 'agency:index' %}">Home</a>
+          <a href="{% url 'agency:redactor-list' %}">Topics</a>
+        </div>
+        <h2>Topic Space</h2>
+      </div>
+    </div>
+  </div>
+</section>
+<!--================ End Home Banner Area =================-->
+
+<!--================Blog Categorie Area =================-->
+
+<!--================Blog Categorie Area =================-->
+
+<!--================Blog Area =================-->
+<section class="blog_area">
+  <div class="container">
+    <div class="row">
+      <div class="col-lg-8">
+        <div class="blog_left_sidebar">
+          {% if topic_list %}
+          {% for topic in topic_list %}
+          <article class="row blog_item">
+            <div class="col-md-3">
+              <div class="blog_info text-right">
+
+              </div>
+            </div>
+            <div class="col-md-9">
+              <div class="blog_post">
+                <img src="img/blog/main-blog/m-blog-1.jpg" alt="">
+                <div class="blog_details">
+                  <a href="single-blog.html">
+                    <h2>
+                      <td>
+                        {{ topic.name }}
+                    </h2>
+                  </a>
+                  <td>
+                    <a href="{% url 'agency:topic-update' pk=topic.id %}" class="blog_btn">UPDATE</a>
+                  </td>
+                  <td>
+                    <a href="{% url 'agency:topic-delete' pk=topic.id %}" class="blog_btn">DELETE</a>
+                  </td>
+                </div>
+              </div>
+            </div>
+          </article>
+          {% endfor %}
+          {% endif %}
+          <a href="{% url 'agency:topic-create' %}" class="btn btn-primary link-to-page">
+            Create
+          </a>
+          <nav class="blog-pagination justify-content-center d-flex">
+            <ul class="pagination">
+              <li class="page-item">
+
+            </ul>
+          </nav>
+        </div>
+      </div>
+
+      <div class="col-lg-4">
+        <div class="blog_right_sidebar">
+          <aside class="single_sidebar_widget search_widget">
+            <div class="input-group">
+              {% include "includes/search_form.html" %}
+            </div>
+          </aside>
+
+          {% endblock %}

@@ -26,9 +26,8 @@ SECRET_KEY = os.environ['DJANGO_SECRET_KEY']
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = os.environ.get('DJANGO_DEBUG', '') != 'False'
 
-ALLOWED_HOSTS = []
+ALLOWED_HOSTS = ['newspaper-agency-ii0d.onrender.com']
 
-# Application definition
 
 INSTALLED_APPS = [
     'django.contrib.admin',

@@ -28,7 +28,6 @@ DEBUG = os.environ.get('DJANGO_DEBUG', '') != 'False'
 
 ALLOWED_HOSTS = ['newspaper-agency-ii0d.onrender.com']
 
-# Application definition
 
 INSTALLED_APPS = [
     'django.contrib.admin',

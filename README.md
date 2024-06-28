@@ -27,4 +27,8 @@ python manage.py runserver
 * Powerful admin panel for advanced managing
 
 
+## Test User Credentials
+To evaluate the functionality of the site, you can use the following test user credentials:
 
+- **Username:** user
+- **Password:** user12345

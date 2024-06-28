@@ -6,38 +6,35 @@
   <!doctype html>
   <html lang="en">
 
-  <header class="header_area">
-    <div class="main_menu">
-      <div class="search_input" id="search_input_box">
-        <div class="container">
-          <form class="d-flex justify-content-between">
-            <input type="text" class="form-control" id="search_input" placeholder="Search Here">
-            <button type="submit" class="btn"></button>
-            <span class="lnr lnr-cross" id="close_search" title="Close Search"></span>
-          </form>
-        </div>
+<header class="header_area">
+  <div class="main_menu">
+    <div class="search_input" id="search_input_box">
+      <div class="container">
+        <form class="d-flex justify-content-between">
+          <input type="text" class="form-control" id="search_input" placeholder="Search Here">
+          <button type="submit" class="btn"></button>
+          <span class="lnr lnr-cross" id="close_search" title="Close Search"></span>
+        </form>
       </div>
-      <nav class="navbar navbar-expand-lg navbar-light">
-        <div class="container">
-          <!-- Brand and toggle get grouped for better mobile display -->
-          <a class="navbar-brand logo_h" href="base.html"><img src="img/logo.png" alt=""></a>
-          <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent"
-                  aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
-            <span class="icon-bar"></span>
-            <span class="icon-bar"></span>
-            <span class="icon-bar"></span>
-          </button>
-          <!-- Collect the nav links, forms, and other content for toggling -->
-          <div class="collapse navbar-collapse offset" id="navbarSupportedContent">
-            <ul class="nav navbar-nav menu_nav ml-auto">
-              <li class="nav-item active"><a class="nav-link" href="{% url 'agency:index' %}">Home</a></li>
-              <li class="nav-item"><a class="nav-link" href="{% url 'agency:redactor-list' %}">Redactors</a></li>
-              <li class="nav-item"><a class="nav-link" href="{% url 'agency:topic-list' %}">Topics</a></li>
-              <li class="nav-item"><a class="nav-link" href="{% url 'agency:newspaper-list' %}">Newspapers</a></li>
-              <li class="nav-item">
-                <a class="nav-link" href="{% url 'login' %}?next={{ request.path }}">LOGIN</a>
-              </li>
+    </div>
+    <nav class="navbar navbar-expand-lg navbar-light">
+      <div class="container">
+        <!-- Brand and toggle get grouped for better mobile display -->
+        <a class="navbar-brand logo_h" href="{% url 'agency:index' %}"><img src="img/logo.png" alt=""></a>
+        <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent"
+                aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+          <span class="icon-bar"></span>
+          <span class="icon-bar"></span>
+          <span class="icon-bar"></span>
+        </button>
+        <div class="collapse navbar-collapse offset" id="navbarSupportedContent">
+          <ul class="nav navbar-nav menu_nav ml-auto">
+            <li class="nav-item active"><a class="nav-link" href="{% url 'agency:index' %}">Home</a></li>
+            <li class="nav-item"><a class="nav-link" href="{% url 'agency:redactor-list' %}">Redactors</a></li>
+            <li class="nav-item"><a class="nav-link" href="{% url 'agency:topic-list' %}">Topics</a></li>
+            <li class="nav-item"><a class="nav-link" href="{% url 'agency:newspaper-list' %}">Newspapers</a></li>
 
+            {% if user.is_authenticated %}
               <li class="nav-item">
                 <form method="post" action="{% url 'logout' %}" style="display: inline;">
                   {% csrf_token %}
@@ -46,35 +43,35 @@
                   </button>
                 </form>
               </li>
-              </form>
-              <li class="nav-item submenu dropdown">
+            {% else %}
+              <li class="nav-item">
+                <a class="nav-link" href="{% url 'login' %}?next={{ request.path }}">LOGIN</a>
               </li>
-              <ul class="dropdown-menu">
-              </ul>
-              </li>
-            </ul>
-            <ul class="nav navbar-nav ml-auto">
-              <div class="social-icons d-flex align-items-center">
+            {% endif %}
 
+            <li class="nav-item submenu dropdown">
+              <!-- Dropdown items, if any -->
+            </li>
+          </ul>
 
-                <a href="">
-                  <li><i class="fa fa-facebook"></i></li>
-                </a>
-                <a href="">
-                  <li><i class="fa fa-twitter"></i></li>
-                </a>
-                </li>
-              </div>
-              <li class="nav-item"><a href="#" class="search">
-                <i class="lnr lnr-magnifier" id="search"></i></a>
-              </li>
-            </ul>
-          </div>
+          <ul class="nav navbar-nav ml-auto">
+            <div class="social-icons d-flex align-items-center">
+              <a href="">
+                <li><i class="fa fa-facebook"></i></li>
+              </a>
+              <a href="">
+                <li><i class="fa fa-twitter"></i></li>
+              </a>
+            </div>
+            <li class="nav-item"><a href="#" class="search">
+              <i class="lnr lnr-magnifier" id="search"></i></a>
+            </li>
+          </ul>
         </div>
-      </nav>
-    </div>
-  </header><!--================ End Header Menu Area =================-->
-
+      </div>
+    </nav>
+  </div>
+</header>
   <!--================ End Header Menu Area =================-->
 
   <!--================Home Banner Area =================-->

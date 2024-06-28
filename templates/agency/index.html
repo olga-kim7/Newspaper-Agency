@@ -1,4 +1,4 @@
-{%  extends "base.html" %}
+{% extends "base.html" %}
 {% block body %}
 <header class="header_area">
   <div class="main_menu">
@@ -14,7 +14,7 @@
     <nav class="navbar navbar-expand-lg navbar-light">
       <div class="container">
         <!-- Brand and toggle get grouped for better mobile display -->
-        <a class="navbar-brand logo_h" href="base.html"><img src="img/logo.png" alt=""></a>
+        <a class="navbar-brand logo_h" href="{% url 'agency:index' %}"><img src="img/logo.png" alt=""></a>
         <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent"
                 aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
           <span class="icon-bar"></span>
@@ -27,36 +27,35 @@
             <li class="nav-item"><a class="nav-link" href="{% url 'agency:redactor-list' %}">Redactors</a></li>
             <li class="nav-item"><a class="nav-link" href="{% url 'agency:topic-list' %}">Topics</a></li>
             <li class="nav-item"><a class="nav-link" href="{% url 'agency:newspaper-list' %}">Newspapers</a></li>
-            <li class="nav-item">
-              <a class="nav-link" href="{% url 'login' %}?next={{ request.path }}">LOGIN</a>
-            </li>
 
-            <li class="nav-item">
-              <form method="post" action="{% url 'logout' %}" style="display: inline;">
-                {% csrf_token %}
-                <button class="nav-link" type="submit"
-                        style="background: none; border: none; padding: 0; margin: 0; cursor: pointer;">LOGOUT
-                </button>
-              </form>
-            </li>
-            </form>
+            {% if user.is_authenticated %}
+              <li class="nav-item">
+                <form method="post" action="{% url 'logout' %}" style="display: inline;">
+                  {% csrf_token %}
+                  <button class="nav-link" type="submit"
+                          style="background: none; border: none; padding: 0; margin: 0; cursor: pointer;">LOGOUT
+                  </button>
+                </form>
+              </li>
+            {% else %}
+              <li class="nav-item">
+                <a class="nav-link" href="{% url 'login' %}?next={{ request.path }}">LOGIN</a>
+              </li>
+            {% endif %}
+
             <li class="nav-item submenu dropdown">
-            </li>
-            <ul class="dropdown-menu">
-            </ul>
+              <!-- Dropdown items, if any -->
             </li>
           </ul>
+
           <ul class="nav navbar-nav ml-auto">
             <div class="social-icons d-flex align-items-center">
-
-
               <a href="">
                 <li><i class="fa fa-facebook"></i></li>
               </a>
               <a href="">
                 <li><i class="fa fa-twitter"></i></li>
               </a>
-              </li>
             </div>
             <li class="nav-item"><a href="#" class="search">
               <i class="lnr lnr-magnifier" id="search"></i></a>
@@ -67,9 +66,9 @@
     </nav>
   </div>
 </header>
-<!--================ End Header Menu Area =================-->
+  <!--================ End Header Menu Area =================-->
 
-<!--================ Start Home Banner Area =================-->
+  <!--================ Start Home Banner Area =================-->
 <section class="home_banner_area overlay">
   <div class="banner_inner">
     <div class="container">
@@ -81,213 +80,219 @@
           <p>
             Stay informed with the latest news, place your advertisements, and discover interesting content with us.
           </p>
-          <a class="primary-btn text-uppercase" href="{% url 'login' %}?next={{request.path}}">Login</a>
-        </div>
-      </div>
-    </div>
-  </div>
-</section>
-<!--================ End Home Banner Area =================-->
-
-<!--================ Start Features Area =================-->
-<section class="features_area" id="features_counter">
-  <div class="container">
-    <div class="row counter_wrapper">
-      <!-- single feature -->
-      <div class="col-lg-3 col-md-6 col-sm-6">
-        <div class="single_feature">
-          <div class="thumb">
-            <img src="img/features/1.png" alt="">
-          </div>
-          <div class="info-content">
-            <h4><span class="counter">{{ num_redactors }}</span>+</h4>
-            <p>Qualified redactors</p>
-
-          </div>
-        </div>
-      </div>
-      <!-- single feature -->
-      <div class="col-lg-3 col-md-6 col-sm-6">
-        <div class="single_feature">
-          <div class="thumb">
-            <img src="img/features/2.png" alt="">
-          </div>
-          <div class="info-content">
-            <h4><span class="counter">{{ num_topics }}</span>+</h4>
-            <p>Various Topics</p>
-          </div>
-        </div>
-      </div>
-      <!-- single feature -->
-      <div class="col-lg-3 col-md-6 col-sm-6">
-        <div class="single_feature">
-          <div class="thumb">
-            <img src="img/features/3.png" alt="">
-          </div>
-          <div class="info-content">
-            <h4><span class="counter">{{ num_newspapers }}</span>k</h4>
-            <p>The Best Newspapers</p>
-          </div>
-        </div>
-      </div>
-      <!-- single feature -->
-      <div class="col-lg-3 col-md-6 col-sm-6">
-        <div class="single_feature">
-          <div class="thumb">
-            <img src="img/features/4.png" alt="">
-          </div>
-          <div class="info-content">
-            <h4><span class="counter">{{ num_visits }}</span>+</h4>
-            <p>Your Visit</p>
-          </div>
-        </div>
-      </div>
-    </div>
-  </div>
-</section>
-<!--================ End Features Area =================-->
-
-<!--================ Start Video Area =================-->
-<section class="video-sec-area section_gap_top" id="about">
-  <div class="container">
-    <div class="row justify-content-center align-items-center">
-      <div class="col-lg-6 text-center">
-        <div class="video-inner justify-content-center align-items-center d-flex">
-          <img src="https://news.wpcarey.asu.edu/sites/default/files/2022-11/iStock-1325276224.jpg" alt="Відображення"
-               class="img-fluid">
-          <span></span>
-        </div>
-      </div>
-      <div class="col-lg-6 text-center">
-        <div class="video-right">
-          <h1>About Us!</h1>
-          <p>Welcome to our newspaper agency! We are your reliable partner in the media industry, specializing in
-            high-quality advertising placements and announcements across the most prestigious publications. Our mission
-            is to ensure your brand achieves maximum visibility and effectiveness through strategic partnerships with
-            leading media platforms. Discover more about our comprehensive services and how we can collaborate to
-            elevate your brand today!</p>
-          <a href="#" class="primary-btn">Learn More</a>
-
-          <div class="right-bottom-area text-left">
-            <div class="author-lacture mx-auto">
-              <p>At our agency, we pride ourselves on being your trusted partner in the dynamic world of media. With a
-                commitment to excellence, we offer premium services in advertising placement and announcements across
-                top-tier publications. Our goal is to enhance your brand's visibility and impact through strategic media
-                collaborations. Explore our range of services and discover how we can empower your brand's journey in
-                the media landscape today!</p>
-              <div class="author-title">
-                <div class="thumb mx-auto"><img src="img/about-author.png" alt=""></div>
-                <div class="a-desc">
-                  <h6>Olha Kim</h6>
-                  <p>Chief Executive, Newspaper</p>
-                </div>
-              </div>
-            </div>
-          </div>
+          {% if not user.is_authenticated %}
+            <a class="primary-btn text-uppercase" href="{% url 'login' %}?next={{ request.path }}">Login</a>
+          {% endif %}
         </div>
       </div>
     </div>
   </div>
 </section>
 
+  <!--================ End Home Banner Area =================-->
 
-<!--================  start footer Area =================-->
-<footer class="footer-area">
-  <div class="footer_top section_gap_top">
+  <!--================ Start Features Area =================-->
+  <section class="features_area" id="features_counter">
     <div class="container">
-      <div class="row">
+      <div class="row counter_wrapper">
+        <!-- single feature -->
         <div class="col-lg-3 col-md-6 col-sm-6">
-          <div class="single-footer-widget">
-            <h5 class="footer_title">About Lawful</h5>
-            <p class="about-text">The world has become so fast paced that people don’t want to stand by reading a page
-              of information, they would much rather look at a presentation and understand the message. It has come to a
-              point where images and videos are used more to </p>
-          </div>
-        </div>
-        <div class="col-lg-2 col-md-6 col-sm-6">
-          <div class="single-footer-widget">
-            <h5 class="footer_title">Navigation Links</h5>
-            <div class="row">
-              <div class="col-5">
-                <ul class="list">
-                  <li><a href="#">Home</a></li>
-                  <li><a href="#">Features</a></li>
-                  <li><a href="#">Services</a></li>
-                  <li><a href="#">Portfolio</a></li>
-                </ul>
-              </div>
-              <div class="col-5">
-                <ul class="list">
-                  <li><a href="#">Team</a></li>
-                  <li><a href="#">Pricing</a></li>
-                  <li><a href="#">Blog</a></li>
-                  <li><a href="#">contact</a></li>
-                </ul>
-              </div>
+          <div class="single_feature">
+            <div class="thumb">
+              <img src="img/features/1.png" alt="">
+            </div>
+            <div class="info-content">
+              <h4><span class="counter">{{ num_redactors }}</span>+</h4>
+              <p>Qualified redactors</p>
+
             </div>
           </div>
         </div>
+        <!-- single feature -->
         <div class="col-lg-3 col-md-6 col-sm-6">
-          <div class="single-footer-widget">
-            <h5>Newsletter</h5>
-            <p>For business professionals caught between high OEM price and mediocre print and graphic output, </p>
-            <div class="footer-newsletter" id="mc_embed_signup">
-              <form target="_blank" novalidate="true"
-                    action="https://spondonit.us12.list-manage.com/subscribe/post?u=1462626880ade1ac87bd9c93a&amp;id=92a4423d01"
-                    method="get" class="form-inline">
-                <div class="d-flex flex-row">
-                  <!--										<input class="form-control" name="EMAIL" placeholder="Enter Email" onfocus="this.placeholder = ''" onblur="this.placeholder = 'Enter Email '"-->
-                  <!--										 required="" type="email">-->
-                  <!--										<button class="click-btn btn btn-default"><span class="lnr lnr-location" aria-hidden="true"></span></button>-->
-                  <div style="position: absolute; left: -5000px;">
-                    <input name="b_36c4fd991d266f23781ded980_aefe40901a" tabindex="-1" value="" type="text">
+          <div class="single_feature">
+            <div class="thumb">
+              <img src="img/features/2.png" alt="">
+            </div>
+            <div class="info-content">
+              <h4><span class="counter">{{ num_topics }}</span>+</h4>
+              <p>Various Topics</p>
+            </div>
+          </div>
+        </div>
+        <!-- single feature -->
+        <div class="col-lg-3 col-md-6 col-sm-6">
+          <div class="single_feature">
+            <div class="thumb">
+              <img src="img/features/3.png" alt="">
+            </div>
+            <div class="info-content">
+              <h4><span class="counter">{{ num_newspapers }}</span>k</h4>
+              <p>The Best Newspapers</p>
+            </div>
+          </div>
+        </div>
+        <!-- single feature -->
+        <div class="col-lg-3 col-md-6 col-sm-6">
+          <div class="single_feature">
+            <div class="thumb">
+              <img src="img/features/4.png" alt="">
+            </div>
+            <div class="info-content">
+              <h4><span class="counter">{{ num_visits }}</span>+</h4>
+              <p>Your Visit</p>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+  <!--================ End Features Area =================-->
+
+  <!--================ Start Video Area =================-->
+  <section class="video-sec-area section_gap_top" id="about">
+    <div class="container">
+      <div class="row justify-content-center align-items-center">
+        <div class="col-lg-6 text-center">
+          <div class="video-inner justify-content-center align-items-center d-flex">
+            <img src="https://news.wpcarey.asu.edu/sites/default/files/2022-11/iStock-1325276224.jpg" alt="Відображення"
+                 class="img-fluid">
+            <span></span>
+          </div>
+        </div>
+        <div class="col-lg-6 text-center">
+          <div class="video-right">
+            <h1>About Us!</h1>
+            <p>Welcome to our newspaper agency! We are your reliable partner in the media industry, specializing in
+              high-quality advertising placements and announcements across the most prestigious publications. Our
+              mission
+              is to ensure your brand achieves maximum visibility and effectiveness through strategic partnerships with
+              leading media platforms. Discover more about our comprehensive services and how we can collaborate to
+              elevate your brand today!</p>
+            <a href="#" class="primary-btn">Learn More</a>
+
+            <div class="right-bottom-area text-left">
+              <div class="author-lacture mx-auto">
+                <p>At our agency, we pride ourselves on being your trusted partner in the dynamic world of media. With a
+                  commitment to excellence, we offer premium services in advertising placement and announcements across
+                  top-tier publications. Our goal is to enhance your brand's visibility and impact through strategic
+                  media
+                  collaborations. Explore our range of services and discover how we can empower your brand's journey in
+                  the media landscape today!</p>
+                <div class="author-title">
+                  <div class="thumb mx-auto"><img src="img/about-author.png" alt=""></div>
+                  <div class="a-desc">
+                    <h6>Olha Kim</h6>
+                    <p>Chief Executive, Newspaper</p>
                   </div>
                 </div>
-                <div class="info"></div>
-              </form>
+              </div>
             </div>
           </div>
         </div>
-        <div class="col-lg-3  col-md-6 col-sm-6">
-          <div class="single-footer-widget mail-chimp">
-            <h5 class="mb-20">Instragram Feed</h5>
-            <ul class="instafeed d-flex flex-wrap">
-              <li><img src="img/i1.jpg" alt=""></li>
-              <li><img src="img/i2.jpg" alt=""></li>
-              <li><img src="img/i3.jpg" alt=""></li>
-              <li><img src="img/i4.jpg" alt=""></li>
-              <li><img src="img/i5.jpg" alt=""></li>
-              <li><img src="img/i6.jpg" alt=""></li>
-              <li><img src="img/i7.jpg" alt=""></li>
-              <li><img src="img/i8.jpg" alt=""></li>
-            </ul>
+      </div>
+    </div>
+  </section>
+
+
+  <!--================  start footer Area =================-->
+  <footer class="footer-area">
+    <div class="footer_top section_gap_top">
+      <div class="container">
+        <div class="row">
+          <div class="col-lg-3 col-md-6 col-sm-6">
+            <div class="single-footer-widget">
+              <h5 class="footer_title">About Lawful</h5>
+              <p class="about-text">The world has become so fast paced that people don’t want to stand by reading a page
+                of information, they would much rather look at a presentation and understand the message. It has come to
+                a
+                point where images and videos are used more to </p>
+            </div>
+          </div>
+          <div class="col-lg-2 col-md-6 col-sm-6">
+            <div class="single-footer-widget">
+              <h5 class="footer_title">Navigation Links</h5>
+              <div class="row">
+                <div class="col-5">
+                  <ul class="list">
+                    <li><a href="#">Home</a></li>
+                    <li><a href="#">Features</a></li>
+                    <li><a href="#">Services</a></li>
+                    <li><a href="#">Portfolio</a></li>
+                  </ul>
+                </div>
+                <div class="col-5">
+                  <ul class="list">
+                    <li><a href="#">Team</a></li>
+                    <li><a href="#">Pricing</a></li>
+                    <li><a href="#">Blog</a></li>
+                    <li><a href="#">contact</a></li>
+                  </ul>
+                </div>
+              </div>
+            </div>
+          </div>
+          <div class="col-lg-3 col-md-6 col-sm-6">
+            <div class="single-footer-widget">
+              <h5>Newsletter</h5>
+              <p>For business professionals caught between high OEM price and mediocre print and graphic output, </p>
+              <div class="footer-newsletter" id="mc_embed_signup">
+                <form target="_blank" novalidate="true"
+                      action="https://spondonit.us12.list-manage.com/subscribe/post?u=1462626880ade1ac87bd9c93a&amp;id=92a4423d01"
+                      method="get" class="form-inline">
+                  <div class="d-flex flex-row">
+                    <!--										<input class="form-control" name="EMAIL" placeholder="Enter Email" onfocus="this.placeholder = ''" onblur="this.placeholder = 'Enter Email '"-->
+                    <!--										 required="" type="email">-->
+                    <!--										<button class="click-btn btn btn-default"><span class="lnr lnr-location" aria-hidden="true"></span></button>-->
+                    <div style="position: absolute; left: -5000px;">
+                      <input name="b_36c4fd991d266f23781ded980_aefe40901a" tabindex="-1" value="" type="text">
+                    </div>
+                  </div>
+                  <div class="info"></div>
+                </form>
+              </div>
+            </div>
+          </div>
+          <div class="col-lg-3  col-md-6 col-sm-6">
+            <div class="single-footer-widget mail-chimp">
+              <h5 class="mb-20">Instragram Feed</h5>
+              <ul class="instafeed d-flex flex-wrap">
+                <li><img src="img/i1.jpg" alt=""></li>
+                <li><img src="img/i2.jpg" alt=""></li>
+                <li><img src="img/i3.jpg" alt=""></li>
+                <li><img src="img/i4.jpg" alt=""></li>
+                <li><img src="img/i5.jpg" alt=""></li>
+                <li><img src="img/i6.jpg" alt=""></li>
+                <li><img src="img/i7.jpg" alt=""></li>
+                <li><img src="img/i8.jpg" alt=""></li>
+              </ul>
+            </div>
           </div>
         </div>
       </div>
     </div>
-  </div>
-  <div class="copyright">
-    <div class="container">
-      <div class="row">
-        <div class="col-lg-6 col-md-12">
-          <p><!-- Link back to Colorlib can't be removed. Template is licensed under CC BY 3.0. -->
-            Copyright &copy;<script>document.write(new Date().getFullYear());</script>
-            All rights reserved | This template is made with <i class="fa fa-heart-o" aria-hidden="true"></i> by <a
-                href="https://colorlib.com" target="_blank">Colorlib</a>
-            <!-- Link back to Colorlib can't be removed. Template is licensed under CC BY 3.0. --></p>
-        </div>
-        <div class="col-lg-6 col-md-12 text-right">
-          <div class="social-icons">
-            <a href="#"><i class="fa fa-facebook"></i></a>
-            <a href="#"><i class="fa fa-twitter"></i></a>
-            <a href="#"><i class="fa fa-dribbble"></i></a>
-            <a href="#"><i class="fa fa-behance"></i></a>
+    <div class="copyright">
+      <div class="container">
+        <div class="row">
+          <div class="col-lg-6 col-md-12">
+            <p><!-- Link back to Colorlib can't be removed. Template is licensed under CC BY 3.0. -->
+              Copyright &copy;<script>document.write(new Date().getFullYear());</script>
+              All rights reserved | This template is made with <i class="fa fa-heart-o" aria-hidden="true"></i> by <a
+                  href="https://colorlib.com" target="_blank">Colorlib</a>
+              <!-- Link back to Colorlib can't be removed. Template is licensed under CC BY 3.0. --></p>
+          </div>
+          <div class="col-lg-6 col-md-12 text-right">
+            <div class="social-icons">
+              <a href="#"><i class="fa fa-facebook"></i></a>
+              <a href="#"><i class="fa fa-twitter"></i></a>
+              <a href="#"><i class="fa fa-dribbble"></i></a>
+              <a href="#"><i class="fa fa-behance"></i></a>
+            </div>
           </div>
         </div>
       </div>
     </div>
-  </div>
-</footer>
-<!--================ End footer Area =================-->
+  </footer>
+  <!--================ End footer Area =================-->
 
 {% endblock %}
